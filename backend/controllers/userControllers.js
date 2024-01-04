@@ -5,7 +5,6 @@ import genToken from "../utils/generateToken.js";
 const authUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email);
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
       genToken(res, user._id);
@@ -24,12 +23,9 @@ const authUser = async (req, res) => {
 };
 const registerUser = async (req, res) => {
   try {
-    console.log("reached");
     const { name, email, password } = req.body;
-    console.log(email);
     const userExists = await User.findOne({ email: email });
-    console.log(User, "data base");
-    console.log(userExists, "user existes");
+
     if (userExists) {
       res.status(400);
       throw new Error("user email already exists");
@@ -39,7 +35,6 @@ const registerUser = async (req, res) => {
       email,
       password,
     });
-    console.log(user, "user created");
     if (user) {
       genToken(res, user._id);
       res.status(201).json({

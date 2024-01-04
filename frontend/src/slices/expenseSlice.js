@@ -14,9 +14,7 @@ const expenseSlice = createSlice({
       state.expense = action.payload;
     },
     expenseRemove: (state, action) => {
-      console.log(action.payload, "actionnnnn");
       const { expId } = action.payload;
-      console.log(expId, "from stklsdjfsdf");
 
       state.expense = state.expense.filter((expense) => expense._id !== expId);
     },

@@ -13,7 +13,6 @@ const DashBoard = () => {
   const { getExpOfMonth } = useMonthlyExpense();
   const getBudget = async () => {
     const res = await monthBudget().unwrap();
-    console.log(res.currentMonthBudget.amount, "res.currentMonthBudget.amount");
     dispatch(addBudgetOfMonth(res.currentMonthBudget.amount));
   };
 

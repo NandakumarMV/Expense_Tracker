@@ -33,7 +33,6 @@ const Expenses = () => {
 
   const expenses = useSelector((state) => state.expenses.expense);
   const monthlyExp = useSelector((state) => state.expenses.expenseOfMonth);
-  console.log(monthlyExp, "monthly exp");
   const deleteExpense = async (expId) => {
     try {
       const res = await removeExpense({ expId }).unwrap();

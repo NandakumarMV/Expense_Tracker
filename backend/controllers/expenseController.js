@@ -61,7 +61,6 @@ const getExpense = async (req, res) => {
 const deleteExpense = async (req, res) => {
   try {
     const { expId } = req.body;
-    console.log(expId, "exp id");
     const userId = req.user._id;
 
     // Find the user's expenses
@@ -79,7 +78,6 @@ const deleteExpense = async (req, res) => {
     if (expenseIndex === -1) {
       return res.status(404).json({ message: "Expense not found" });
     }
-    console.log(expenseIndex);
     // Remove the expense from the expenses array
     userExpenses.expenses.splice(expenseIndex, 1);
 
@@ -120,7 +118,6 @@ const getMonthlyExpense = async (req, res) => {
       (total, expense) => total + expense.amount,
       0
     );
-    console.log(totalExpense, "total expense");
     res.status(200).json({ totalExpense });
   } catch (error) {
     console.error(error);
