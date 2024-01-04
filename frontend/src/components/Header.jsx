@@ -32,7 +32,7 @@ const Header = () => {
             <>
               {" "}
               <li
-                className="text-sm sm:text-base hidden md:flex flex-grow justify-center space-x-4"
+                className="text-sm sm:text-base  md:flex flex-grow justify-center space-x-4"
                 onClick={logoutHandler}
               >
                 Logout
@@ -41,10 +41,10 @@ const Header = () => {
           ) : (
             <>
               {" "}
-              <li className="text-sm sm:text-base hidden md:flex flex-grow justify-center space-x-4">
+              <li className="text-sm sm:text-base  md:flex flex-grow justify-center space-x-4">
                 <Link to="/"> Login</Link>
               </li>
-              <li className="text-sm sm:text-base hidden md:flex flex-grow justify-center space-x-4">
+              <li className="text-sm sm:text-base  md:flex flex-grow justify-center space-x-4">
                 <Link to="/signup"> Sign Up</Link>
               </li>
             </>

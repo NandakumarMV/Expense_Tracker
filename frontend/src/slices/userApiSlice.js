@@ -39,10 +39,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getMonthlyExpense: builder.mutation({
-      query: (data) => ({
+      query: () => ({
         url: `${USERS_URL}/montly-expense`,
         method: "get",
-        body: data,
       }),
     }),
     deleteExpense: builder.mutation({
@@ -50,6 +49,19 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/delete-expense`,
         method: "delete",
         body: data,
+      }),
+    }),
+    addBudget: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/add-budget`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getMonthlyBudget: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/get-budget`,
+        method: "get",
       }),
     }),
   }),
@@ -63,4 +75,6 @@ export const {
   useDeleteExpenseMutation,
   useGetExpenseMutation,
   useGetMonthlyExpenseMutation,
+  useAddBudgetMutation,
+  useGetMonthlyBudgetMutation,
 } = userApiSlice;

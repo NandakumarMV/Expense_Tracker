@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { expenseRemove, setExpenses } from "../slices/expenseSlice";
 import { dateFormat } from "../utils/dateFormat";
 import { MdDelete } from "react-icons/md";
+import useMonthlyExpense from "../utils/getExpOfMonth";
 
 const Expenses = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [expOfMoth, setexpOfMoth] = useState(0);
+
   const pageSize = 4;
   const [getExpenses] = useGetExpenseMutation();
   const [removeExpense] = useDeleteExpenseMutation();
@@ -22,23 +23,24 @@ const Expenses = () => {
     const res = await getExpenses().unwrap();
     dispatch(setExpenses(res));
   };
-  const getExpOfmonth = async () => {
-    const res = await monthExpense().unwrap();
-    setexpOfMoth(res.totalExpense);
-  };
-  console.log(expOfMoth, "exp of month");
+
+  const { getExpOfMonth } = useMonthlyExpense();
+
   useEffect(() => {
     getExpenseData();
-    getExpOfmonth();
+    getExpOfMonth();
   }, [currentPage]);
 
   const expenses = useSelector((state) => state.expenses.expense);
+  const monthlyExp = useSelector((state) => state.expenses.expenseOfMonth);
+  console.log(monthlyExp, "monthly exp");
   const deleteExpense = async (expId) => {
     try {
       const res = await removeExpense({ expId }).unwrap();
 
       if (res.message !== "Expense not found") {
         await dispatch(expenseRemove({ expId }));
+        getExpOfMonth();
       }
     } catch (error) {
       console.error(error);
@@ -57,8 +59,8 @@ const Expenses = () => {
   );
   return (
     <div>
-      <div className="w-full border-2 border-black bg-slate-100 p-5 rounded-xl text-xl font-mono flex justify-center items-center">
-        Total Expense : ₹ {expOfMoth}
+      <div className="w-full border-2 border-black bg-slate-100 p-5 text-red-700 font-bold rounded-xl text-xl font-mono flex justify-center items-center">
+        Total Expense : ₹ {monthlyExp}
       </div>
       <div className="flex justify-end items-start">
         <ExpenseFrom />
