@@ -27,9 +27,7 @@ const Graph = ({ budgetAmount, totalExpenseAmount }) => {
       <div className="">
         <div className=" flex flex-col justify-center items-center ">
           <Doughnut data={data} options={options} />
-          <div className="flex items-center justify-center">
-            <h3 className="mb-4 font-bold ">Total : 1000 </h3>
-          </div>
+          <div className="flex items-center justify-center"></div>
         </div>
       </div>
     </div>
