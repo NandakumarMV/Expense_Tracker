@@ -5,7 +5,6 @@ const initialState = {
   expense: [],
   expenseOfMonth: 0,
   budgetOfMonth: 0,
-  counter: 0,
 };
 
 const expenseSlice = createSlice({
@@ -25,12 +24,6 @@ const expenseSlice = createSlice({
     },
     addBudgetOfMonth: (state, action) => {
       state.budgetOfMonth = action.payload;
-    },
-    incrementCounter: (state, action) => {
-      state.counter = counter++;
-    },
-    decrementCounter: (state, action) => {
-      state.counter = counter--;
     },
   },
 });
