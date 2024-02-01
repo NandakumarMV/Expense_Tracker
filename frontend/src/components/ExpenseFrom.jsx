@@ -5,8 +5,11 @@ import { useAddExpenseMutation } from "../slices/userApiSlice";
 import { useDispatch } from "react-redux";
 import { setExpenses } from "../slices/expenseSlice";
 import useMonthlyExpense from "../utils/getExpOfMonth";
+import WarningModal from "./WarningModal";
 
 const ExpenseFrom = () => {
+  const [showWarningModal, setShowWarningModal] = useState(false);
+
   const dispatch = useDispatch();
   const [inputState, setInputState] = useState({
     title: "",
@@ -23,20 +26,28 @@ const ExpenseFrom = () => {
   const { getExpOfMonth } = useMonthlyExpense();
 
   const [addExpense] = useAddExpenseMutation();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("lllllllllllllll");
     const res = await addExpense(inputState).unwrap();
+    console.log(res.message, "resss from backkk");
 
-    await dispatch(setExpenses(res));
-    getExpOfMonth();
+    if (res.message === "Expense exceeds the budget for the current month!") {
+      setShowWarningModal(true);
+    } else {
+      await dispatch(setExpenses(res));
+      getExpOfMonth();
+    }
     setInputState({
       title: "",
       amount: "",
       date: "",
       category: "",
     });
-    try {
-    } catch (error) {}
+  };
+  const handleCloseWarningModal = () => {
+    setShowWarningModal(false);
   };
   return (
     <>
@@ -103,6 +114,7 @@ const ExpenseFrom = () => {
           Add Expense
         </button>
       </form>
+      {showWarningModal && <WarningModal onClose={handleCloseWarningModal} />}
     </>
   );
 };

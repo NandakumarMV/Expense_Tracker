@@ -10,15 +10,16 @@ import { expenseRemove, setExpenses } from "../slices/expenseSlice";
 import { dateFormat } from "../utils/dateFormat";
 import { MdDelete } from "react-icons/md";
 import useMonthlyExpense from "../utils/getExpOfMonth";
+import WarningModal from "./WarningModal";
 
 const Expenses = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const pageSize = 4;
   const [getExpenses] = useGetExpenseMutation();
   const [removeExpense] = useDeleteExpenseMutation();
   const [monthExpense] = useGetMonthlyExpenseMutation();
   const dispatch = useDispatch();
+
   const getExpenseData = async () => {
     const res = await getExpenses().unwrap();
     dispatch(setExpenses(res));
@@ -56,6 +57,7 @@ const Expenses = () => {
     indexOfFirstExpense,
     indexOfLastExpense
   );
+  
   return (
     <div>
       <div className="w-full border-2 border-black bg-slate-100 p-5 text-red-700 font-bold rounded-xl text-xl font-mono flex justify-center items-center">

@@ -40,7 +40,6 @@ const Header = () => {
             </>
           ) : (
             <>
-              {" "}
               <li className="text-sm sm:text-base  md:flex flex-grow justify-center space-x-4">
                 <Link to="/"> Login</Link>
               </li>

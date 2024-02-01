@@ -1,3 +1,4 @@
+import Budget from "../models/budgetModel.js";
 import Expense from "../models/expenseModel.js";
 
 const addExpense = async (req, res) => {
@@ -16,6 +17,49 @@ const addExpense = async (req, res) => {
         .json({ message: "Amount must be a positive number!" });
     }
 
+    // Check if there is a budget for the user for the current month
+    const currentMonthBudget = await Budget.findOne({
+      userId: userId,
+      "budgets.year": new Date().getFullYear(),
+      "budgets.month": new Date().getMonth() + 1,
+    });
+
+    if (currentMonthBudget) {
+      // Calculate the total expense for the current month
+      const currentDate = new Date();
+
+      // Extract the year and month from the current date
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1; // Months are zero-indexed
+
+      // Retrieve expenses for the user
+      const userExpenses = await Expense.findOne({ userId }, { expenses: 1 });
+
+      if (!userExpenses) {
+        return res.status(404).json({ message: "User expenses not found" });
+      }
+
+      const currentMonthExpenses = userExpenses.expenses.filter((expense) => {
+        const expenseYear = expense.timestamp.getFullYear();
+        const expenseMonth = expense.timestamp.getMonth() + 1;
+        return expenseYear === currentYear && expenseMonth === currentMonth;
+      });
+
+      const totalExpense = currentMonthExpenses.reduce(
+        (total, expense) => total + expense.amount,
+        0
+      );
+      const addedExpense = parseInt(totalExpense) + parseInt(amount);
+      console.log(addedExpense, "total expoebse");
+      // Check if the total expense exceeds the budget amount after adding the new expense
+      if (addedExpense > currentMonthBudget.budgets[0].amount) {
+        return res.json({
+          message: "Expense exceeds the budget for the current month!",
+        });
+      }
+    }
+
+    // Add the expense to the database
     const updatedUserExpenses = await Expense.findOneAndUpdate(
       { userId },
       {

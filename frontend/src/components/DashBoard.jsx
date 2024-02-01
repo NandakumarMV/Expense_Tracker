@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addBudgetOfMonth } from "../slices/expenseSlice";
 import useMonthlyExpense from "../utils/getExpOfMonth";
 
+
 const DashBoard = () => {
   const [monthBudget] = useGetMonthlyBudgetMutation();
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const DashBoard = () => {
             </button>
             {isModalOpen && <BudgetModal onClose={closeModal} />}
           </div>
+         
         </div>
       </div>
     </div>
